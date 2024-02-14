@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    restart: always
+    build:
+      context: ./docker/db
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: database
+      MARIADB_USER: user
+      MARIADB_PASSWORD: password
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    ports:
+      - "3088:80"
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
