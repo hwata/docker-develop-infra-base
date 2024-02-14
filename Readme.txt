@@ -2,7 +2,7 @@
 
 開発用Dockerインフラです。
 データベース、phpmyadmin、MailHogが入っています。
-#
+
 # 起動方法
 
 composer docker:up
