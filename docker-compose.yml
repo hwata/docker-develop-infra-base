@@ -25,6 +25,8 @@ services:
       - PMA_HOSTS=db
       - PMA_USER=root
       - PMA_PASSWORD=password
+      - MEMORY_LIMIT=1024M
+      - UPLOAD_LIMIT=512M
     ports:
       - "3088:80"
   mailhog:
